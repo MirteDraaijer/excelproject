@@ -1,0 +1,14 @@
+---
+title: "app"
+author: "Mirte Draaijer"
+output: html_document
+runtime: shiny
+lang: "nl"
+editor_options: 
+  markdown:
+    wrap: sentence
+---
+
+Excel sheets van NHL Stenden omzetten in een interactief .Rmd bestand of in een daadwerkelijke shiny applicatie.
+
+Makkelijkste optie is denk ik: https://rmarkdown.rstudio.com/lesson-14.html 
