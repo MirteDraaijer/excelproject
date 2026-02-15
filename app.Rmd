@@ -9,6 +9,50 @@ editor_options:
     wrap: sentence
 ---
 
-Excel sheets van NHL Stenden omzetten in een interactief .Rmd bestand of in een daadwerkelijke shiny applicatie.
+```{r, echo=FALSE}
+# Libraries:
+library(ggplot2)
+library(renz)
+```
+
+
+**NOTITIE:** Excel sheets van NHL Stenden omzetten in een interactief .Rmd bestand of in een daadwerkelijke shiny applicatie.
 
 Makkelijkste optie is denk ik: https://rmarkdown.rstudio.com/lesson-14.html 
+
+# MM-Curve
+
+In deze applicatie kun je een MM-curve fitten door gemeten datapunten. Er is keuze uit een enkele curve en een dubbele curve.
+
+# Enkele curve:
+
+```{r inputs, echo=FALSE}
+textInput("new_conc", "Voer concentratie in (gescheiden door komma):", value = 1, 2, 3)
+textInput("new_act", "Voer activiteit in (gescheiden door komma):", value = 0.5, 1, 1.5)
+```
+
+```{r plot, echo=FALSE}
+renderPlot({
+  conc_values <- as.numeric(unlist(strsplit(input$new_conc, ",")))
+  act_values <- as.numeric(unlist(strsplit(input$new_act, ",")))
+  
+  if(length(conc_values) != length(act_values)) {
+    return(plot.new() + text(0.5, 0.5, "Aantal concentraties en activiteiten moeten gelijk zijn!", cex = 1.2))
+  }
+  
+  user_point <- data.frame(
+    concentration = conc_values,
+    activity = act_values
+  )
+  
+  ggplot(user_point, aes(x = concentration, y= activity)) +
+    geom_point(color = "brown2", shape = 18, size = 3)
+})
+```
+
+# Dubbele curve:
+
+# Info en contact:
+
+Deze applicatie is ontwikkeld door Mirte Draaijer gedurende de minor DNA sequencing en biologische data-analyse bij NHL Stenden & Van Hall Larenstein.
+Voor contact verwijs ik graag naar de [Github pagina](https://github.com/MirteDraaijer/excelproject/tree/main) van deze applicatie of naar mijn [LinkedIn pagina](https://www.linkedin.com/in/mirte-draaijer-394a58385/).
