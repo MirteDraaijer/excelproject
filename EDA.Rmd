@@ -11,6 +11,7 @@ editor_options:
 ```{r}
 #Libraries:
 library(ggplot2)
+library(renz)
 ```
 
 
@@ -38,23 +39,32 @@ Alle datapunten zijn nu opgeslagen in een dataframe, deze kunnen nu geplot worde
 ```{r}
 ggplot(plot_data, aes(x = concentratie, y = activiteit)) +
   geom_point() +
-  ylim(0.0, 0.140) +
-  xlim(0.0, 1.6) +
   theme_minimal()
 ```
 
-De datapunten zijn nu geplot, maar nu moet er nog een curve gefit worden door de punten.
+De datapunten zijn nu geplot, maar nu moet er nog een curve gefit worden door de punten. De library `renz` heeft een functie genaamd `dir.MM()` deze functie kan een MM-curve fitten door een dataset. 
+
+```{r}
+fit_values <- dir.MM(plot_data, plot = FALSE)
+fit_values$data
+```
+De fit wordt opgeslagen in een dataframe, deze is hierboven te zien. Deze dataframe kan gebruikt worden om de fit samen met de gemeten data te plotten in 1 grafiek.
 
 ```{r}
 ggplot(plot_data, aes(x = concentratie, y = activiteit)) +
-  geom_point() +
-  geom_smooth(method = loess, color = "red", se = FALSE) +
-  ylim(0.0, 0.140) +
-  xlim(0.0, 1.6) +
-  theme_minimal()
+  geom_point(color = "brown2", shape = 18, size = 3) +
+  geom_line(data = fit_values$data, aes(x = S, y = fitted_v), color = "deepskyblue2", size = 1) +
+  labs(
+    title = "MM-curve gefit door gemeten datapunten",
+    x = "Concentratie",
+    y = "Activiteit"
+  ) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 
-Dit is een eerste test voor het fitten van de curve en moet nog verbeterd worden.
+De functie maakt een mooie fit door de datapunten heen. Ik moet nog wel even navragen in wat voor eenheden de metingen worden gedaan zodat ik de assen mooi compleet kan maken.
+Als een volgende stap ga ik kijken hoe ik dit kan verwerken tot een interactief .Rmd bestand.
 
 
 # Dubbele curve
