@@ -9,7 +9,7 @@ editor_options:
     wrap: sentence
 ---
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, warning=FALSE}
 # Libraries:
 library(ggplot2)
 library(renz)
@@ -27,26 +27,37 @@ In deze applicatie kun je een MM-curve fitten door gemeten datapunten. Er is keu
 # Enkele curve:
 
 ```{r inputs, echo=FALSE}
-textInput("new_conc", "Voer concentratie in (gescheiden door komma):", value = 1, 2, 3)
-textInput("new_act", "Voer activiteit in (gescheiden door komma):", value = 0.5, 1, 1.5)
+textInput("new_conc", "Voer concentratie in (gescheiden door komma):", placeholder = "Voorbeeld: 1.25, 0.90, 0.60, 0.31, 0.16, 0.08, 0.04, 0.02, 0.01", width = "100%")
+textInput("new_act", "Voer activiteit in (gescheiden door komma):", placeholder = "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%")
 ```
 
 ```{r plot, echo=FALSE}
 renderPlot({
+  req(input$new_conc, input$new_act)
+  
   conc_values <- as.numeric(unlist(strsplit(input$new_conc, ",")))
   act_values <- as.numeric(unlist(strsplit(input$new_act, ",")))
+  
+  user_point <- data.frame(
+    concentration = conc_values,
+    activity = act_values
+    )
   
   if(length(conc_values) != length(act_values)) {
     return(plot.new() + text(0.5, 0.5, "Aantal concentraties en activiteiten moeten gelijk zijn!", cex = 1.2))
   }
   
-  user_point <- data.frame(
-    concentration = conc_values,
-    activity = act_values
-  )
+  fit_values <- dir.MM(user_point, plot = FALSE)
   
   ggplot(user_point, aes(x = concentration, y= activity)) +
-    geom_point(color = "brown2", shape = 18, size = 3)
+    geom_point(color = "brown2", shape = 18, size = 3) +
+    geom_line(data = fit_values$data, aes(x = S, y = fitted_v), color = "deepskyblue2", size = 1) +
+    labs(
+      title = "MM-curve gefit door gemeten datapunten",
+      x = "Concentratie",
+      y = "Activiteit"
+      ) +
+    theme_minimal()
 })
 ```
 
