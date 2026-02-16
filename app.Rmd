@@ -1,5 +1,5 @@
 ---
-title: "app"
+title: "MM-Curve app"
 author: "Mirte Draaijer"
 output: html_document
 runtime: shiny
@@ -9,16 +9,15 @@ editor_options:
     wrap: sentence
 ---
 
-```{r, echo=FALSE, warning=FALSE}
-# Libraries:
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, 
+                      message = FALSE)
+```
+
+```{r libraries, warning=FALSE}
 library(ggplot2)
 library(renz)
 ```
-
-
-**NOTITIE:** Excel sheets van NHL Stenden omzetten in een interactief .Rmd bestand of in een daadwerkelijke shiny applicatie.
-
-Makkelijkste optie is denk ik: https://rmarkdown.rstudio.com/lesson-14.html 
 
 # MM-Curve
 
@@ -26,12 +25,12 @@ In deze applicatie kun je een MM-curve fitten door gemeten datapunten. Er is keu
 
 # Enkele curve:
 
-```{r inputs, echo=FALSE}
+```{r inputs}
 textInput("new_conc", "Voer concentratie in (gescheiden door komma):", placeholder = "Voorbeeld: 1.25, 0.90, 0.60, 0.31, 0.16, 0.08, 0.04, 0.02, 0.01", width = "100%")
 textInput("new_act", "Voer activiteit in (gescheiden door komma):", placeholder = "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%")
 ```
 
-```{r plot, echo=FALSE}
+```{r plot}
 renderPlot({
   req(input$new_conc, input$new_act)
   
@@ -67,3 +66,9 @@ renderPlot({
 
 Deze applicatie is ontwikkeld door Mirte Draaijer gedurende de minor DNA sequencing en biologische data-analyse bij NHL Stenden & Van Hall Larenstein.
 Voor contact verwijs ik graag naar de [Github pagina](https://github.com/MirteDraaijer/excelproject/tree/main) van deze applicatie of naar mijn [LinkedIn pagina](https://www.linkedin.com/in/mirte-draaijer-394a58385/).
+
+
+
+**NOTITIE:** Excel sheets van NHL Stenden omzetten in een interactief .Rmd bestand of in een daadwerkelijke shiny applicatie.
+
+Makkelijkste optie is denk ik: https://rmarkdown.rstudio.com/lesson-14.html 
