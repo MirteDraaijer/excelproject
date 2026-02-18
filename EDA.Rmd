@@ -15,15 +15,15 @@ library(renz)
 ```
 
 
-In dit bestand ga ik een Exploratory Data Analysis uitvoeren om te kijken hoe de Excel sheets in elkaar zitten en hoe ik dit om kan zetten naar R. Ik heb twee verschillende excel sheets ontvangen, één met een enkele curve en één met een dubbele curve.
+In dit bestand ga ik een Exploratory Data Analysis uitvoeren om te kijken hoe de Excel sheets in elkaar zitten en hoe ik dit om kan zetten naar R. Ik heb twee verschillende Excel sheets ontvangen, één met een enkele curve en één met een dubbele curve.
 
 # Enkele curve
 
-Het excel-sheet maakt een Michaelis-Menten curve (MM-curve) op basis van gemeten activiteit (v) bij concentraties (S). De gemeten data punten worden in een grafiek geplot en hierdoor wordt lijn getrokken. Een voorbeeld uit de excel-sheet van hoe dit er uit ziet is in afbeelding 1 te zien.
+Het Excel-sheet maakt een Michaelis-Menten curve (MM-curve) op basis van gemeten activiteit (v) bij concentraties (S). De gemeten data punten worden in een grafiek geplot en hierdoor wordt lijn getrokken. Een voorbeeld uit de Excel-sheet van hoe dit er uit ziet is in afbeelding 1 te zien.
 
-![Afbeelding 1: een voorbeeld van de MM-curve uit de excel-sheet](imgs/excel_voorbeeld.png)
+![Afbeelding 1: een voorbeeld van de MM-curve uit de Excel-sheet](imgs/excel_voorbeeld.png)
 
-Om te beginnen met het omzetten van de excel-sheet naar R, ga ik eerst deze afbeelding namaken.
+Om te beginnen met het omzetten van de Excel-sheet naar R, ga ik eerst deze afbeelding namaken.
 
 ```{r}
 plot_data <- data.frame(
@@ -64,7 +64,8 @@ ggplot(plot_data, aes(x = concentratie, y = activiteit)) +
 ```
 
 De functie maakt een mooie fit door de datapunten heen. Ik moet nog wel even navragen in wat voor eenheden de metingen worden gedaan zodat ik de assen mooi compleet kan maken.
-Als een volgende stap ga ik kijken hoe ik dit kan verwerken tot een interactief .Rmd bestand.
 
 
 # Dubbele curve
+
+Het tweede Excel sheet bevat functionaliteiten voor een dubbele curve. Hierbij zijn twee tabellen aanwezig waarin meet-waardes ingevuld kunnen worden en door de data uit deze tabellen worden 2 verschillende MM-curves geplot. De functionaliteit is inprincipe hetzelfde als het eerste Excel-sheet. Om deze reden ga ik ook geen verder analyse doen voor deze Excel-sheet.
