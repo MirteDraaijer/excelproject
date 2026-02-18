@@ -19,6 +19,22 @@ library(ggplot2)
 library(renz)
 ```
 
+```{r dataprep}
+# Helper functions
+parse_input <- function(conc_input, act_input) {
+  conc <- as.numeric(unlist(strsplit(conc_input, ",")))
+  act <- as.numeric(unlist(strsplit(act_input, ",")))
+  
+  if (length(conc) != length(act)) {
+    return(NULL)
+  }
+  data.frame(
+    concentration = conc,
+    activity = act
+  )
+}
+```
+
 # MM-Curve
 
 In deze applicatie kun je een MM-curve fitten door gemeten datapunten. Er is keuze uit een enkele curve en een dubbele curve.
@@ -32,32 +48,46 @@ textInput("new_conc", "Voer concentratie in (gescheiden door komma):", placehold
 textInput("new_act", "Voer activiteit in (gescheiden door komma):", placeholder = "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%")
 ```
 
-```{r plot}
-renderPlot({
+```{r parse_single}
+single_data <- reactive({
   req(input$new_conc, input$new_act)
+  data <- parse_input(input$new_conc, input$new_act)
   
-  conc_values <- as.numeric(unlist(strsplit(input$new_conc, ",")))
-  act_values <- as.numeric(unlist(strsplit(input$new_act, ",")))
+  validate(
+    need(length(data$concentration) > 0 && length(data$activity) > 0,
+         "Voer waarden in gescheiden door komma's."),
+    need(!any(is.na(data$concentration)) &&
+           !any(is.na(data$activity)),
+         "Gebruik alleen numeriek waarden (geen tekst)."),
+    need(length(data$concentration) == length(data$activity),
+         "Aantal concentraties en activiteiten moet gelijk zijn.")
+  )
+  data
+})
+```
+
+```{r fit_single}
+single_fit <- reactive ({
+  req(single_data())
+  dir.MM(single_data(), plot = FALSE)
+})
+```
+
+```{r single_plot}
+renderPlot({
+  req(single_data(), single_fit())
   
-  user_point <- data.frame(
-    concentration = conc_values,
-    activity = act_values
-    )
-  
-  if(length(conc_values) != length(act_values)) {
-    return(plot.new() + text(0.5, 0.5, "Aantal concentraties en activiteiten moeten gelijk zijn!", cex = 1.2))
-  }
-  
-  fit_values <- dir.MM(user_point, plot = FALSE)
-  
-  ggplot(user_point, aes(x = concentration, y= activity)) +
+  ggplot(single_data(), aes(x = concentration, y = activity)) +
     geom_point(color = "brown2", shape = 18, size = 3) +
-    geom_line(data = fit_values$data, aes(x = S, y = fitted_v), color = "deepskyblue2", size = 1) +
+    geom_line(data = single_fit()$data,
+              aes(x = S, y = fitted_v),
+              color = "deepskyblue2",
+              size = 1) +
     labs(
       title = "MM-curve gefit door gemeten datapunten",
       x = "Concentratie",
       y = "Activiteit"
-      ) +
+    ) +
     theme_minimal()
 })
 ```
@@ -74,47 +104,67 @@ textInput("new_conc2", "Voer concentratie in voor dataset 2 (gescheiden door kom
 textInput("new_act2", "Voer activiteit in voor datatset 2 (gescheiden door komma):", placeholder = "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%")
 ```
 
-```{r plot2}
+```{r parse_double}
+data1 <- reactive ({
+  req(input$new_conc1, input$new_act1)
+  data <- parse_input(input$new_conc1, input$new_act1)
+  
+  validate(
+    need(length(data$concentration) > 0 && length(data$activity) > 0,
+         "Voer waarden in gescheiden door komma's."),
+    need(!any(is.na(data$concentration)) &&
+           !any(is.na(data$activity)),
+         "Gebruik alleen numeriek waarden (geen tekst)."),
+    need(length(data$concentration) == length(data$activity),
+         "Aantal concentraties en activiteiten moet gelijk zijn.")
+  )
+  data
+})
+
+data2 <- reactive ({
+  req(input$new_conc2, input$new_act2)
+  data <- parse_input(input$new_conc2, input$new_act2)
+  
+  validate(
+    need(length(data$concentration) > 0 && length(data$activity) > 0,
+         "Voer waarden in gescheiden door komma's."),
+    need(!any(is.na(data$concentration)) &&
+           !any(is.na(data$activity)),
+         "Gebruik alleen numeriek waarden (geen tekst)."),
+    need(length(data$concentration) == length(data$activity),
+         "Aantal concentraties en activiteiten moet gelijk zijn.")
+  )
+  data
+})
+```
+
+```{r fit_double}
+fit1 <- reactive ({
+  req(data1())
+  dir.MM(data1(), plot = FALSE)
+})
+
+fit2 <- reactive ({
+  req(data2())
+  dir.MM(data2(), plot = FALSE)
+})
+```
+
+```{r double_plot}
 renderPlot({
-  req(input$new_conc1, input$new_act1, input$new_conc2, input$new_act2)
-  
-  conc_values1 <- as.numeric(unlist(strsplit(input$new_conc1, ",")))
-  act_values1 <- as.numeric(unlist(strsplit(input$new_act1, ",")))
-  
-  conc_values2 <- as.numeric(unlist(strsplit(input$new_conc2, ",")))
-  act_values2 <- as.numeric(unlist(strsplit(input$new_act2, ",")))
-  
-  user_point1 <- data.frame(
-    concentration = conc_values1,
-    activity = act_values1
-    )
-  
-  user_point2 <- data.frame(
-    concentration = conc_values2,
-    activity = act_values2
-    )
-  
-  if(length(conc_values1) != length(act_values1)) {
-    return(plot.new() + text(0.5, 0.5, "Aantal concentraties en activiteiten moeten gelijk zijn!", cex = 1.2))
-  }
-  if (length(conc_values2) != length(act_values2)) {
-    return(plot.new() + text(0.5, 0.5, "Aantal concentraties en activiteiten moeten gelijk zijn!", cex = 1.2))
-  }
-  
-  fit_values1 <- dir.MM(user_point1, plot = FALSE)
-  fit_values2 <- dir.MM(user_point2, plot = FALSE)
+  req(data1(), data2(), fit1(), fit2())
   
   ggplot() +
-    geom_point(data = user_point1,
+    geom_point(data = data1(),
                aes(x = concentration, y = activity, color = "Dataset 1"),
                shape = 4, size = 3) +
-    geom_line(data = fit_values1$data,
+    geom_line(data = fit1()$data,
               aes(x = S, y = fitted_v, color = "Fit 1"),
               size = 1) +
-    geom_point(data = user_point2,
+    geom_point(data = data2(),
                aes(x = concentration, y = activity, color = "Dataset 2"),
                shape = 3, size = 3) +
-    geom_line(data = fit_values2$data,
+    geom_line(data = fit2()$data,
               aes(x = S, y = fitted_v, color = "Fit 2"),
               size = 1) +
     
