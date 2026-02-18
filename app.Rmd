@@ -25,6 +25,8 @@ In deze applicatie kun je een MM-curve fitten door gemeten datapunten. Er is keu
 
 # Enkele curve:
 
+Gebaseerd op gemeten activiteiten ($v$) bij gegeven concentraties ($S$) wordt een MM-curve gefit door de datapunten.
+
 ```{r inputs}
 textInput("new_conc", "Voer concentratie in (gescheiden door komma):", placeholder = "Voorbeeld: 1.25, 0.90, 0.60, 0.31, 0.16, 0.08, 0.04, 0.02, 0.01", width = "100%")
 textInput("new_act", "Voer activiteit in (gescheiden door komma):", placeholder = "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%")
@@ -62,12 +64,92 @@ renderPlot({
 
 # Dubbele curve:
 
+Gebaseerd op gemeten activiteiten ($v$) bij gegeven concentraties ($S$) wordt een MM-curve gefit voor twee sets aan gemeten datapunten.
+
+```{r inputs2}
+textInput("new_conc1", "Voer concentratie in voor dataset 1 (gescheiden door komma):", placeholder = "Voorbeeld: 1.25, 0.90, 0.60, 0.31, 0.16, 0.08, 0.04, 0.02, 0.01", width = "100%")
+textInput("new_act1", "Voer activiteit in voor dataset 1 (gescheiden door komma):", placeholder = "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%")
+
+textInput("new_conc2", "Voer concentratie in voor dataset 2 (gescheiden door komma):", placeholder = "Voorbeeld: 1.25, 0.90, 0.60, 0.31, 0.16, 0.08, 0.04, 0.02, 0.01", width = "100%")
+textInput("new_act2", "Voer activiteit in voor datatset 2 (gescheiden door komma):", placeholder = "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%")
+```
+
+```{r plot2}
+renderPlot({
+  req(input$new_conc1, input$new_act1, input$new_conc2, input$new_act2)
+  
+  conc_values1 <- as.numeric(unlist(strsplit(input$new_conc1, ",")))
+  act_values1 <- as.numeric(unlist(strsplit(input$new_act1, ",")))
+  
+  conc_values2 <- as.numeric(unlist(strsplit(input$new_conc2, ",")))
+  act_values2 <- as.numeric(unlist(strsplit(input$new_act2, ",")))
+  
+  user_point1 <- data.frame(
+    concentration = conc_values1,
+    activity = act_values1
+    )
+  
+  user_point2 <- data.frame(
+    concentration = conc_values2,
+    activity = act_values2
+    )
+  
+  if(length(conc_values1) != length(act_values1)) {
+    return(plot.new() + text(0.5, 0.5, "Aantal concentraties en activiteiten moeten gelijk zijn!", cex = 1.2))
+  }
+  if (length(conc_values2) != length(act_values2)) {
+    return(plot.new() + text(0.5, 0.5, "Aantal concentraties en activiteiten moeten gelijk zijn!", cex = 1.2))
+  }
+  
+  fit_values1 <- dir.MM(user_point1, plot = FALSE)
+  fit_values2 <- dir.MM(user_point2, plot = FALSE)
+  
+  ggplot() +
+    geom_point(data = user_point1,
+               aes(x = concentration, y = activity, color = "Dataset 1"),
+               shape = 4, size = 3) +
+    geom_line(data = fit_values1$data,
+              aes(x = S, y = fitted_v, color = "Fit 1"),
+              size = 1) +
+    geom_point(data = user_point2,
+               aes(x = concentration, y = activity, color = "Dataset 2"),
+               shape = 3, size = 3) +
+    geom_line(data = fit_values2$data,
+              aes(x = S, y = fitted_v, color = "Fit 2"),
+              size = 1) +
+    
+    scale_color_manual(values = c(
+      "Dataset 1" = "deepskyblue4",
+      "Fit 1" = "deepskyblue",
+      "Dataset 2" = "deeppink4",
+      "Fit 2" = "deeppink"
+    )) +
+    
+    labs (
+      title = "MM-curve gefit door gemeten datapunten",
+      x = "Concentratie",
+      y = "Activiteit",
+      color = "Legenda"
+    ) +
+    
+    theme_minimal()
+})
+```
+
 # Info en contact:
 
 Deze applicatie is ontwikkeld door Mirte Draaijer gedurende de minor DNA sequencing en biologische data-analyse bij NHL Stenden & Van Hall Larenstein.
 Voor contact verwijs ik graag naar de [Github pagina](https://github.com/MirteDraaijer/excelproject/tree/main) van deze applicatie of naar mijn [LinkedIn pagina](https://www.linkedin.com/in/mirte-draaijer-394a58385/).
 
 
+
+**TO DO:**
+
+- Vragen naar de eenheden voor de assen
+- App opmaak netjes maken
+- Extra tekst toevoegen aan applicatie
+- Iets van een inhoudsopgave
+- Leuke naam bedenken
 
 **NOTITIE:** Excel sheets van NHL Stenden omzetten in een interactief .Rmd bestand of in een daadwerkelijke shiny applicatie.
 
