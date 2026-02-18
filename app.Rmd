@@ -1,7 +1,7 @@
 ---
-title: "MM-Curve app"
-author: "Mirte Draaijer"
-output: html_document
+output: 
+  html_document:
+    theme: lumen
 runtime: shiny
 lang: "nl"
 editor_options: 
@@ -35,20 +35,66 @@ parse_input <- function(conc_input, act_input) {
 }
 ```
 
-# MM-Curve
+```{r}
+div(
+  style = "background-color:#2C3E50; padding:25px; border-radius:10px; margin-bottom:20px; margin-top:20px;",
+  h2("MM-curve fitting applicatie",
+     style = "color:#F8F9FA; margin:0; font-weight:600;")
+)
+```
 
-In deze applicatie kun je een MM-curve fitten door gemeten datapunten. Er is keuze uit een enkele curve en een dubbele curve.
-
-# Enkele curve:
-
-Gebaseerd op gemeten activiteiten ($v$) bij gegeven concentraties ($S$) wordt een MM-curve gefit door de datapunten.
-
-```{r inputs}
-textInput("new_conc", "Voer concentratie in (gescheiden door komma):", placeholder = "Voorbeeld: 1.25, 0.90, 0.60, 0.31, 0.16, 0.08, 0.04, 0.02, 0.01", width = "100%")
-textInput("new_act", "Voer activiteit in (gescheiden door komma):", placeholder = "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%")
+```{r tabpanels}
+tabsetPanel(
+  tabPanel("Welkom",
+           p("In deze applicatie kun je een MM-curve fitten door gemeten datapunten. Er is keuze uit een
+             enkele curve en een dubbele curve.")),
+  tabPanel("Enkele curve",
+           p("Gebaseerd op gemeten activiteiten (v) bij gegeven concentraties (S) wordt een MM-curve gefit
+             door de datapunten."),
+           p("! Gebruik een '.' als decimaalteken."),
+           wellPanel(
+               textInput("new_conc", "Voer concentratie in (gescheiden door komma):", placeholder = "Voorbeeld: 1.25, 0.90, 0.60, 0.31, 0.16, 0.08, 0.04, 0.02, 0.01", width = "100%"),
+               textInput("new_act", "Voer activiteit in (gescheiden door komma):", placeholder = "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%")
+           ),
+           
+           br(),
+           plotOutput("single_plot", height = "400px")
+           ),
+  
+  tabPanel("Dubbele curve",
+           p("Gebaseerd op gemeten activiteiten (v) bij gegeven concentraties (S) wordt een MM-curve gefit
+             voor twee sets aan gemeten datapunten."),
+           p("! Gebruik een '.' als decimaalteken."),
+           wellPanel(
+             textInput("new_conc1", "Voer concentratie in voor dataset 1 (gescheiden door komma):", placeholder =
+                         "Voorbeeld: 1.25, 0.90, 0.60, 0.31, 0.16, 0.08, 0.04, 0.02, 0.01", width = "100%"),
+             textInput("new_act1", "Voer activiteit in voor dataset 1 (gescheiden door komma):", placeholder =
+             "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%"),
+             
+             textInput("new_conc2", "Voer concentratie in voor dataset 2 (gescheiden door komma):", placeholder =
+                         "Voorbeeld: 1.25, 0.90, 0.60, 0.31, 0.16, 0.08, 0.04, 0.02, 0.01", width = "100%"),
+                         textInput("new_act2", "Voer activiteit in voor datatset 2 (gescheiden door komma):",
+                         placeholder = "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%")
+             ),
+           
+           br(),
+           plotOutput("double_plot", height = "400px")
+           ),
+  
+  tabPanel("Info en contact",
+           p("Deze applicatie is ontwikkeld door Mirte Draaijer gedurende de minor DNA sequencing en biologische
+           data-analyse bij NHL Stenden & Van Hall Larenstein.
+           Voor contact verwijs ik graag naar de", 
+           a("github", href = "https://github.com/MirteDraaijer/excelproject/tree/main", target = "_blank"),
+           "van deze applicatie of naar mijn",
+           a("LinkedIn pagina", href = "https://www.linkedin.com/in/mirte-draaijer-394a58385/"), target =
+             "_blank", ".")
+  )
+)
 ```
 
 ```{r parse_single}
+# Enkele curve:
 single_data <- reactive({
   req(input$new_conc, input$new_act)
   data <- parse_input(input$new_conc, input$new_act)
@@ -74,7 +120,7 @@ single_fit <- reactive ({
 ```
 
 ```{r single_plot}
-renderPlot({
+output$single_plot <- renderPlot({
   req(single_data(), single_fit())
   
   ggplot(single_data(), aes(x = concentration, y = activity)) +
@@ -88,23 +134,16 @@ renderPlot({
       x = "Concentratie",
       y = "Activiteit"
     ) +
-    theme_minimal()
+    theme_minimal() +
+    theme(
+      plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
+      axis.title = element_text(face = "bold")
+    )
 })
 ```
 
-# Dubbele curve:
-
-Gebaseerd op gemeten activiteiten ($v$) bij gegeven concentraties ($S$) wordt een MM-curve gefit voor twee sets aan gemeten datapunten.
-
-```{r inputs2}
-textInput("new_conc1", "Voer concentratie in voor dataset 1 (gescheiden door komma):", placeholder = "Voorbeeld: 1.25, 0.90, 0.60, 0.31, 0.16, 0.08, 0.04, 0.02, 0.01", width = "100%")
-textInput("new_act1", "Voer activiteit in voor dataset 1 (gescheiden door komma):", placeholder = "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%")
-
-textInput("new_conc2", "Voer concentratie in voor dataset 2 (gescheiden door komma):", placeholder = "Voorbeeld: 1.25, 0.90, 0.60, 0.31, 0.16, 0.08, 0.04, 0.02, 0.01", width = "100%")
-textInput("new_act2", "Voer activiteit in voor datatset 2 (gescheiden door komma):", placeholder = "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%")
-```
-
 ```{r parse_double}
+# Dubbele curve:
 data1 <- reactive ({
   req(input$new_conc1, input$new_act1)
   data <- parse_input(input$new_conc1, input$new_act1)
@@ -151,7 +190,7 @@ fit2 <- reactive ({
 ```
 
 ```{r double_plot}
-renderPlot({
+output$double_plot <- renderPlot({
   req(data1(), data2(), fit1(), fit2())
   
   ggplot() +
@@ -182,25 +221,10 @@ renderPlot({
       color = "Legenda"
     ) +
     
-    theme_minimal()
+    theme_minimal() +
+    theme(
+      plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
+      axis.title = element_text(face = "bold")
+    )
 })
 ```
-
-# Info en contact:
-
-Deze applicatie is ontwikkeld door Mirte Draaijer gedurende de minor DNA sequencing en biologische data-analyse bij NHL Stenden & Van Hall Larenstein.
-Voor contact verwijs ik graag naar de [Github pagina](https://github.com/MirteDraaijer/excelproject/tree/main) van deze applicatie of naar mijn [LinkedIn pagina](https://www.linkedin.com/in/mirte-draaijer-394a58385/).
-
-
-
-**TO DO:**
-
-- Vragen naar de eenheden voor de assen
-- App opmaak netjes maken
-- Extra tekst toevoegen aan applicatie
-- Iets van een inhoudsopgave
-- Leuke naam bedenken
-
-**NOTITIE:** Excel sheets van NHL Stenden omzetten in een interactief .Rmd bestand of in een daadwerkelijke shiny applicatie.
-
-Makkelijkste optie is denk ik: https://rmarkdown.rstudio.com/lesson-14.html 
