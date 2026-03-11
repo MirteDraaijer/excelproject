@@ -49,12 +49,16 @@ tabsetPanel(
            p("In deze applicatie kun je een MM-curve fitten door gemeten datapunten. Er is keuze uit een
              enkele curve en een dubbele curve.")),
   tabPanel("Enkele curve",
-           p("Gebaseerd op gemeten activiteiten (v) bij gegeven concentraties (S) wordt een MM-curve gefit
-             door de datapunten."),
+           p("Gebaseerd op gemeten activiteiten \\((v)\\) bij gegeven concentraties \\((S)\\) wordt een MM-curve
+           gefit door de datapunten."),
            p("! Gebruik een '.' als decimaalteken."),
            wellPanel(
                textInput("new_conc", "Voer concentratie in (gescheiden door komma):", placeholder = "Voorbeeld: 1.25, 0.90, 0.60, 0.31, 0.16, 0.08, 0.04, 0.02, 0.01", width = "100%"),
                textInput("new_act", "Voer activiteit in (gescheiden door komma):", placeholder = "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%"),
+               fluidRow(
+                 column(6, textInput("single_conc_unit", "Concentratie eenheid:")),
+                 column(6, textInput("single_act_unit", "Activiteit eenheid:"))
+               ),
                actionButton("fit_single", "Maak plot")
            ),
            
@@ -63,7 +67,7 @@ tabsetPanel(
            ),
   
   tabPanel("Dubbele curve",
-           p("Gebaseerd op gemeten activiteiten (v) bij gegeven concentraties (S) wordt een MM-curve gefit
+           p("Gebaseerd op gemeten activiteiten \\((v)\\) bij gegeven concentraties \\((S)\\) wordt een MM-curve gefit
              voor twee sets aan gemeten datapunten."),
            p("! Gebruik een '.' als decimaalteken."),
            wellPanel(
@@ -76,6 +80,10 @@ tabsetPanel(
                          "Voorbeeld: 1.25, 0.90, 0.60, 0.31, 0.16, 0.08, 0.04, 0.02, 0.01", width = "100%"),
                          textInput("new_act2", "Voer activiteit in voor datatset 2 (gescheiden door komma):",
                          placeholder = "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%"),
+             fluidRow(
+               column(6, textInput("double_conc_unit", "Concentratie eenheid:")),
+               column(6, textInput("double_act_unit", "Activiteit eenheid:"))
+               ),
              actionButton("fit_double", "Maak plot")
              ),
            
@@ -155,8 +163,8 @@ output$single_plot <- renderPlot({
               size = 1) +
     labs(
       title = "MM-curve gefit door gemeten datapunten",
-      x = "Concentratie",
-      y = "Activiteit"
+      x = paste0("Concentratie (", input$single_conc_unit, ")"),
+      y = paste0("Activiteit (", input$single_act_unit, ")")
     ) +
     theme_minimal() +
     theme(
@@ -240,8 +248,8 @@ output$double_plot <- renderPlot({
     
     labs (
       title = "MM-curve gefit door gemeten datapunten",
-      x = "Concentratie",
-      y = "Activiteit",
+      x = paste0("Concentratie (", input$double_conc_unit, ")"),
+      y = paste0("Activiteit (", input$double_act_unit, ")"),
       color = "Legenda"
     ) +
     
