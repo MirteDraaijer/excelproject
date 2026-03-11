@@ -82,6 +82,28 @@ tabsetPanel(
            ),
   
   tabPanel("Info en contact",
+           h3("Hoe komt de fit tot stand?"),
+           p("De Michaelis-Menten vergelijking wordt in deze applicatie gefit met behulp van non linear
+           least-squares fitting. Deze methode bepaalt de waarden \\(V_{max}\\) en \\(K_m\\) waarbij het verschil
+           tussen de gemeten reactiesnelheden en de door het model voorspelde waarden zo klein mogelijk wordt
+           gemaakt. De berekening wordt uitgevoerd met de functie", code("dir.MM()"), "uit de R-package",
+           a("Renz", href = "https://cran.r-project.org/web/packages/renz/index.html"), "."),
+           p("De", a("Michaelis-Menten vergelijking", href =
+                       "https://nl.wikipedia.org/wiki/Michaelis-Mentenvergelijking"), "beschrijft de
+             enzymkinetiek aan de hand van onderstaand model:"),
+           p("$$v = \\frac{V_{\\max}[S]}{K_m + [S]}$$"),
+           p("Parameters:"),
+           withMathJax(
+           HTML("
+           <ul>
+           <li>\\(V_{\\max}\\): de maximale reactiesnelheid</li>
+           <li>\\(K_m\\): een maat voor affiniteit van het enzym voor het substraat</li>
+           <li>\\(S\\): de substraatconcentratie</li>
+           </ul>
+           ")
+           ),
+           
+           h3("Contactgegevens"),
            p("Deze applicatie is ontwikkeld door Mirte Draaijer gedurende de minor DNA sequencing en biologische
            data-analyse bij NHL Stenden & Van Hall Larenstein.
            Voor contact verwijs ik graag naar de", 
