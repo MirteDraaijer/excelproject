@@ -1,5 +1,6 @@
-# excelproject
-Excel sheets van NHL stenden omzetten in een interactief .Rmd document
+# MM-curve fitting applicatie
+Een dashboard voor het fitten van MM-curves door gemeten datapunten, applicatie
+gemaakt op basis van Excel sheets van NHL Stenden & van Hall Larenstein.
 
 ## Auteur
 
@@ -7,7 +8,9 @@ Excel sheets van NHL stenden omzetten in een interactief .Rmd document
 
 ## Beschrijving
 
-Hier korte beschrijving
+In dit dashboard kan de gebruiker gemeten enzym concentraties + enzym activiteiten 
+invoeren. Op basis hiervan zal een MM-curve gefit worden. Deze kan dan gebruikt
+worden voor verdere analyse en/of verslaglegging van de gemeten data.
 
 ## Systeem vereisten en installatie
 
@@ -17,9 +20,7 @@ Hier korte beschrijving
 **Kloon de repository:**
 
 ```bash
-
 git clone git@github.com:MirteDraaijer/excelproject.git
-
 ```
 
 **Installeer de benodigde R-packages:**
