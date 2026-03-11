@@ -54,7 +54,8 @@ tabsetPanel(
            p("! Gebruik een '.' als decimaalteken."),
            wellPanel(
                textInput("new_conc", "Voer concentratie in (gescheiden door komma):", placeholder = "Voorbeeld: 1.25, 0.90, 0.60, 0.31, 0.16, 0.08, 0.04, 0.02, 0.01", width = "100%"),
-               textInput("new_act", "Voer activiteit in (gescheiden door komma):", placeholder = "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%")
+               textInput("new_act", "Voer activiteit in (gescheiden door komma):", placeholder = "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%"),
+               actionButton("fit_single", "Maak plot")
            ),
            
            br(),
@@ -74,7 +75,8 @@ tabsetPanel(
              textInput("new_conc2", "Voer concentratie in voor dataset 2 (gescheiden door komma):", placeholder =
                          "Voorbeeld: 1.25, 0.90, 0.60, 0.31, 0.16, 0.08, 0.04, 0.02, 0.01", width = "100%"),
                          textInput("new_act2", "Voer activiteit in voor datatset 2 (gescheiden door komma):",
-                         placeholder = "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%")
+                         placeholder = "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%"),
+             actionButton("fit_double", "Maak plot")
              ),
            
            br(),
@@ -117,7 +119,7 @@ tabsetPanel(
 
 ```{r parse_single}
 # Enkele curve:
-single_data <- reactive({
+single_data <- eventReactive(input$fit_single, {
   req(input$new_conc, input$new_act)
   data <- parse_input(input$new_conc, input$new_act)
   
@@ -135,7 +137,7 @@ single_data <- reactive({
 ```
 
 ```{r fit_single}
-single_fit <- reactive ({
+single_fit <- eventReactive(input$fit_single, {
   req(single_data())
   dir.MM(single_data(), plot = FALSE)
 })
@@ -166,7 +168,7 @@ output$single_plot <- renderPlot({
 
 ```{r parse_double}
 # Dubbele curve:
-data1 <- reactive ({
+data1 <- eventReactive(input$fit_double, {
   req(input$new_conc1, input$new_act1)
   data <- parse_input(input$new_conc1, input$new_act1)
   
@@ -182,7 +184,7 @@ data1 <- reactive ({
   data
 })
 
-data2 <- reactive ({
+data2 <- eventReactive(input$fit_double, {
   req(input$new_conc2, input$new_act2)
   data <- parse_input(input$new_conc2, input$new_act2)
   
@@ -200,12 +202,12 @@ data2 <- reactive ({
 ```
 
 ```{r fit_double}
-fit1 <- reactive ({
+fit1 <- eventReactive(input$fit_double, {
   req(data1())
   dir.MM(data1(), plot = FALSE)
 })
 
-fit2 <- reactive ({
+fit2 <- eventReactive(input$fit_double, {
   req(data2())
   dir.MM(data2(), plot = FALSE)
 })
