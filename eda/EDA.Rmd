@@ -14,12 +14,14 @@ library(ggplot2)
 library(renz)
 ```
 
-
-In dit bestand ga ik een Exploratory Data Analysis uitvoeren om te kijken hoe de Excel sheets in elkaar zitten en hoe ik dit om kan zetten naar R. Ik heb twee verschillende Excel sheets ontvangen, één met een enkele curve en één met een dubbele curve.
+In dit bestand ga ik een Exploratory Data Analysis uitvoeren om te kijken hoe de Excel sheets in elkaar zitten en hoe ik dit om kan zetten naar R.
+Ik heb twee verschillende Excel sheets ontvangen, één met een enkele curve en één met een dubbele curve.
 
 # Enkele curve
 
-Het Excel-sheet maakt een Michaelis-Menten curve (MM-curve) op basis van gemeten activiteit (v) bij concentraties (S). De gemeten data punten worden in een grafiek geplot en hierdoor wordt lijn getrokken. Een voorbeeld uit de Excel-sheet van hoe dit er uit ziet is in afbeelding 1 te zien.
+Het Excel-sheet maakt een Michaelis-Menten curve (MM-curve) op basis van gemeten activiteit (v) bij concentraties (S).
+De gemeten data punten worden in een grafiek geplot en hierdoor wordt lijn getrokken.
+Een voorbeeld uit de Excel-sheet van hoe dit er uit ziet is in afbeelding 1 te zien.
 
 ![Afbeelding 1: een voorbeeld van de MM-curve uit de Excel-sheet](imgs/excel_voorbeeld.png)
 
@@ -34,6 +36,7 @@ plot_data <- data.frame(
 )
 print(plot_data)
 ```
+
 Alle datapunten zijn nu opgeslagen in een dataframe, deze kunnen nu geplot worden.
 
 ```{r}
@@ -42,13 +45,16 @@ ggplot(plot_data, aes(x = concentratie, y = activiteit)) +
   theme_minimal()
 ```
 
-De datapunten zijn nu geplot, maar nu moet er nog een curve gefit worden door de punten. De library `renz` heeft een functie genaamd `dir.MM()` deze functie kan een MM-curve fitten door een dataset. 
+De datapunten zijn nu geplot, maar nu moet er nog een curve gefit worden door de punten.
+De library `renz` heeft een functie genaamd `dir.MM()` deze functie kan een MM-curve fitten door een dataset.
 
 ```{r}
 fit_values <- dir.MM(plot_data, plot = FALSE)
 fit_values$data
 ```
-De fit wordt opgeslagen in een dataframe, deze is hierboven te zien. Deze dataframe kan gebruikt worden om de fit samen met de gemeten data te plotten in 1 grafiek.
+
+De fit wordt opgeslagen in een dataframe, deze is hierboven te zien.
+Deze dataframe kan gebruikt worden om de fit samen met de gemeten data te plotten in 1 grafiek.
 
 ```{r}
 ggplot(plot_data, aes(x = concentratie, y = activiteit)) +
@@ -63,9 +69,20 @@ ggplot(plot_data, aes(x = concentratie, y = activiteit)) +
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
-De functie maakt een mooie fit door de datapunten heen. Ik moet nog wel even navragen in wat voor eenheden de metingen worden gedaan zodat ik de assen mooi compleet kan maken.
-
+De functie maakt een mooie fit door de datapunten heen.
+Ik moet nog wel even navragen in wat voor eenheden de metingen worden gedaan zodat ik de assen mooi compleet kan maken.
 
 # Dubbele curve
 
-Het tweede Excel sheet bevat functionaliteiten voor een dubbele curve. Hierbij zijn twee tabellen aanwezig waarin meet-waardes ingevuld kunnen worden en door de data uit deze tabellen worden 2 verschillende MM-curves geplot. De functionaliteit is inprincipe hetzelfde als het eerste Excel-sheet. Om deze reden ga ik ook geen verder analyse doen voor deze Excel-sheet.
+Het tweede Excel sheet bevat functionaliteiten voor een dubbele curve.
+Hierbij zijn twee tabellen aanwezig waarin meet-waardes ingevuld kunnen worden en door de data uit deze tabellen worden 2 verschillende MM-curves geplot.
+De functionaliteit is inprincipe hetzelfde als het eerste Excel-sheet.
+Om deze reden ga ik ook geen verder analyse doen voor deze Excel-sheet.
+
+# Substraat inhibitie
+
+Ik heb ook nog een Excel-sheet ontvangen over substraat inhibitie. Dit wil ik ook toevoegen aan de applicatie. Ik zal eerst een kleine exploratieve analyse doen voordat ik dit toevoeg aan de applicatie.
+
+In deze Excel-sheet wordt gebruik gemaakt van de volgende formule:
+
+$v = \frac{V_{max} \cdot [S]}{{K_m} + {[S]} \cdot ( 1 + \frac{[S]}{K_s})}$

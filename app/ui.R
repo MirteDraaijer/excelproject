@@ -12,7 +12,8 @@ ui <- fluidPage(
   tabsetPanel(
     tabPanel("Welkom",
     p("In deze applicatie kun je een MM-curve fitten door gemeten datapunten. Er is keuze uit een
-      enkele curve en een dubbele curve.")),
+      enkele curve en een dubbele curve."),
+    p("Ook is het mogelijk om substraat inhibitie te visualiseren.")),
     
     tabPanel("Enkele curve",
     p("Gebaseerd op gemeten activiteiten \\((v)\\) bij gegeven concentraties \\((S)\\) wordt een MM-curve
@@ -55,6 +56,9 @@ ui <- fluidPage(
     br(),
     plotOutput("double_plot", height = "400px")
     ),
+    
+    tabPanel("Substraat inhibitie",
+             p("Hier komt het gedeelte over substraatinhibitie")),
     
     tabPanel("Info en contact",
              h3("Hoe komt de fit tot stand?"),
