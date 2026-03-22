@@ -1,52 +1,57 @@
 # MM-curve fitting applicatie
-Een dashboard voor het fitten van MM-curves door gemeten datapunten, applicatie
-gemaakt op basis van Excel sheets van NHL Stenden & van Hall Larenstein.
+
+Een dashboard voor het fitten van MM-curves door gemeten datapunten, applicatie gemaakt op basis van Excel sheets van NHL Stenden & van Hall Larenstein.
 
 ## Auteur
 
-- Mirte Draaijer
+-   Mirte Draaijer
 
 ## Beschrijving
 
-In dit dashboard kan de gebruiker gemeten enzym concentraties + enzym activiteiten 
-invoeren. Op basis hiervan zal een MM-curve gefit worden. Deze kan dan gebruikt
-worden voor verdere analyse en/of verslaglegging van de gemeten data.
+In dit dashboard kan de gebruiker gemeten enzym concentraties + enzym activiteiten invoeren. Op basis hiervan zal een MM-curve gefit worden. Deze kan dan gebruikt worden voor verdere analyse en/of verslaglegging van de gemeten data.
 
-## Systeem vereisten en installatie
+## Systeem vereisten en installatie {#systeem-vereisten-en-installatie}
 
-- OS: windows 11, linux, MacOS
-- R: 4.5.0 of hoger
+-   OS: windows 11, linux, MacOS
+-   R: 4.5.0 of hoger
 
 **Kloon de repository:**
 
-```bash
+``` bash
 git clone git@github.com:MirteDraaijer/excelproject.git
 ```
 
 **Installeer de benodigde R-packages:**
 
-```r
+``` r
   install.packages(c(
+    "shiny",
     "ggplot2",
-    "renz"
+    "renz",
+    "minpack.lm"
   ))
 ```
 
 ### Versie details
 
-De applicatie is gemaakt met R versie [4.5.0 ](https://cran.r-project.org/bin/windows/base/old/4.5.0/) en onderstaande R-packages zijn gebruikt in de applicatie:
+De applicatie is gemaakt met R versie [4.5.0](https://cran.r-project.org/bin/windows/base/old/4.5.0/) en onderstaande R-packages zijn gebruikt in de applicatie:
 
-| Package:                                       | Beschrijving:                                          | Versie: |
-|------------------------------------------------|--------------------------------------------------------|---------|
-| [ggplot](https://github.com/tidyverse/ggplot2) | Gebruikt voor het maken van de visualisaties.          | 3.5.2   |
-| [renz](https://github.com/jcaledo/renzGH)      | Gebruikt voor het fitten van de MM-curve door de data. | 0.2.1   |
+| Package:                                         | Beschrijving:                                                  |Versie:|
+|--------------------------------------------------|----------------------------------------------------------------|-------|
+| [shiny](https://github.com/rstudio/shiny)        | Gebruikt voor het maken van de applicatie.                     |1.13.0 |
+| [ggplot](https://github.com/tidyverse/ggplot2)   | Gebruikt voor het maken van de visualisaties.                  | 3.5.2 |
+| [renz](https://github.com/jcaledo/renzGH)        | Gebruikt voor het fitten van de MM-curve door de data.         | 0.2.1 |
+| [minpack.lm](https://github.com/cran/minpack.lm) | Gebruikt voor het fitten van substraat-inhibitie door de data. | 1.2-4 |
 
 ## De applicatie uitvoeren
 
-Als de applicatie is geïnstalleerd zoals beschreven in [systeem vereisten en installatie](#systeem-vereisten-en-installatie) dan kan het bestand `app.Rmd` geopend worden in RStudio.
-Na het openen van `app.Rmd` in RStudio is er bovenaan het document een knop te zien: `Run Document` als hierop wordt geklikt wordt de applicatie uitgevoerd.
+Als de applicatie is geïnstalleerd zoals beschreven in [systeem vereisten en installatie](#systeem-vereisten-en-installatie) 
+dan kan het bestand `app.R` geopend worden in RStudio. Na het openen van `app.R` 
+in RStudio is er bovenaan het document een knop te zien: `Run App` als hierop 
+wordt geklikt wordt de applicatie uitgevoerd.
 
-Als de applicatie niet is geïnstalleerd kan deze gebruikt worden via de volgend URL: HIER DE LINK
+Als de applicatie niet is geïnstalleerd kan deze gebruikt worden via de volgende 
+URL: HIER DE LINK
 
 ## Gebruikershandleiding
 
