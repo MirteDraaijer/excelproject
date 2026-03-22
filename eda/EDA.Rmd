@@ -12,6 +12,7 @@ editor_options:
 #Libraries:
 library(ggplot2)
 library(renz)
+library(minpack.lm)
 ```
 
 In dit bestand ga ik een Exploratory Data Analysis uitvoeren om te kijken hoe de Excel sheets in elkaar zitten en hoe ik dit om kan zetten naar R.
@@ -23,24 +24,25 @@ Het Excel-sheet maakt een Michaelis-Menten curve (MM-curve) op basis van gemeten
 De gemeten data punten worden in een grafiek geplot en hierdoor wordt lijn getrokken.
 Een voorbeeld uit de Excel-sheet van hoe dit er uit ziet is in afbeelding 1 te zien.
 
-![Afbeelding 1: een voorbeeld van de MM-curve uit de Excel-sheet](imgs/excel_voorbeeld.png)
+![Afbeelding 1: een voorbeeld van de MM-curve uit de Excel-sheet](../imgs/excel_voorbeeld.png)
 
 Om te beginnen met het omzetten van de Excel-sheet naar R, ga ik eerst deze afbeelding namaken.
 
 ```{r}
 plot_data <- data.frame(
-  concentratie = c(1.25, 0.90, 0.60, 0.31,
-                   0.16, 0.08, 0.04, 0.02, 0.01),
-  activiteit = c(1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02,
-                 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03)
+  concentration = c(1.25, 0.90, 0.60, 0.31,
+                    0.16, 0.08, 0.04, 0.02, 0.01),
+  activity = c(1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02,
+               7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03)
 )
+
 print(plot_data)
 ```
 
 Alle datapunten zijn nu opgeslagen in een dataframe, deze kunnen nu geplot worden.
 
 ```{r}
-ggplot(plot_data, aes(x = concentratie, y = activiteit)) +
+ggplot(plot_data, aes(x = concentration, y = activity)) +
   geom_point() +
   theme_minimal()
 ```
@@ -57,7 +59,7 @@ De fit wordt opgeslagen in een dataframe, deze is hierboven te zien.
 Deze dataframe kan gebruikt worden om de fit samen met de gemeten data te plotten in 1 grafiek.
 
 ```{r}
-ggplot(plot_data, aes(x = concentratie, y = activiteit)) +
+ggplot(plot_data, aes(x = concentration, y = activity)) +
   geom_point(color = "brown2", shape = 18, size = 3) +
   geom_line(data = fit_values$data, aes(x = S, y = fitted_v), color = "deepskyblue2", size = 1) +
   labs(
@@ -86,3 +88,33 @@ Ik heb ook nog een Excel-sheet ontvangen over substraat inhibitie. Dit wil ik oo
 In deze Excel-sheet wordt gebruik gemaakt van de volgende formule:
 
 $v = \frac{V_{max} \cdot [S]}{{K_m} + {[S]} \cdot ( 1 + \frac{[S]}{K_s})}$
+
+Helaas is er gene R-package die specifiek deze formule heeft, daarom ga ik het zelf als functie definieren om op te kunnen lossen.
+
+```{r}
+fit_si <- nlsLM(
+  activity ~ (Vmax * concentration) / (Km + concentration * (1 + concentration / Ki)),
+  data = plot_data,
+  start = list(Vmax = 0.13, Km = 0.13, Ki = 0.2),
+  control = nls.lm.control(maxiter = 500)
+)
+
+summary(fit_si)
+```
+```{r}
+plot_data$fitted_v <- predict(fit_si, newdata = plot_data)
+```
+```{r}
+ggplot(plot_data, aes(x = concentration, y = activity)) +
+  geom_point(color = "brown2", shape = 18, size = 3) +
+  geom_line(data = fit_values$data, aes(x = S, y = fitted_v), color = "deepskyblue", size = 1) +
+  geom_line(aes(y = fitted_v), color = "deepskyblue4", size = 1) +
+  labs(
+    title = "MM-curve & substraat inhibitie voor gemeten datapunten",
+    x = "Concentratie",
+    y = "Activiteit"
+  ) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+De figuur heeft nog een legenda nodig en de substraat inhibitie staat nog niet in een functie maar dat is zo gebeurt. De substraat inhibitie lijkt in elk geval te werken.
