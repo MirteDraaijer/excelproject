@@ -104,11 +104,25 @@ ui <- fluidPage(
     withMathJax(
     HTML("
     <ul>
-    <li>\\(V_{\\max}\\): de maximale reactiesnelheid</li>
-    <li>\\(K_m\\): een maat voor affiniteit van het enzym voor het substraat</li>
-    <li>\\(S\\): de substraatconcentratie</li>
+    <li>\\(V_{\\max}\\): maximale reactiesnelheid</li>
+    <li>\\(K_m\\): maat voor affiniteit van het enzym voor het substraat</li>
+    <li>\\(S\\): substraatconcentratie</li>
     </ul>
          ")
+    ),
+    p("In de applicatie kan ook substraatinhibitie gefit worden. Dit gebeurt op vrijwel
+      dezelfde manier als het fitten van de MM-curve alleen wordt hiervoor een ander model
+      gebruikt, namelijk:"),
+    p("$$v = \\frac{V_{\\max} [S]}{K_m + [S] \\cdot (1 + \\frac{[S]}{K_s})}$$"),
+    p("Parameters:"),
+    withMathJax(
+      HTML("
+      <ul>
+      <li> \\(V_{\\max}\\): maximale reactiesnelheid </li>
+      <li> \\(K_m\\): Michaelis-constante </li>
+      <li> \\(K_i\\): remmingsconstante voor substraat inhbitie</li>
+      <li> [S]: substraatconcentratie </li>
+      </ul>")
     ),
     
     h3("Contactgegevens"),

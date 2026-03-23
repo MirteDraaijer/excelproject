@@ -83,7 +83,9 @@ Om deze reden ga ik ook geen verder analyse doen voor deze Excel-sheet.
 
 # Substraat inhibitie
 
-Ik heb ook nog een Excel-sheet ontvangen over substraat inhibitie. Dit wil ik ook toevoegen aan de applicatie. Ik zal eerst een kleine exploratieve analyse doen voordat ik dit toevoeg aan de applicatie.
+Ik heb ook nog een Excel-sheet ontvangen over substraat inhibitie.
+Dit wil ik ook toevoegen aan de applicatie.
+Ik zal eerst een kleine exploratieve analyse doen voordat ik dit toevoeg aan de applicatie.
 
 In deze Excel-sheet wordt gebruik gemaakt van de volgende formule:
 
@@ -119,4 +121,6 @@ ggplot(plot_data, aes(x = concentration, y = activity)) +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5))
 ```
-De figuur heeft nog een legenda nodig en de substraat inhibitie staat nog niet in een functie maar dat is zo gebeurt. De substraat inhibitie lijkt in elk geval te werken.
+
+De figuur heeft nog een legenda nodig en de substraat inhibitie staat nog niet in een functie maar dat is zo gebeurt.
+De substraat inhibitie lijkt in elk geval te werken.
