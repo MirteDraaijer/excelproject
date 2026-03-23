@@ -20,8 +20,8 @@ ui <- fluidPage(
       gefit door de datapunten."),
     p("! Gebruik een '.' als decimaalteken."),
     wellPanel(
-      textInput("new_conc", "Voer concentratie in (gescheiden door komma):", placeholder = "Voorbeeld: 1.25, 0.90, 0.60, 0.31, 0.16, 0.08, 0.04, 0.02, 0.01", width = "100%"),
-      textInput("new_act", "Voer activiteit in (gescheiden door komma):", placeholder = "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%"),
+      textInput("new_conc", "Voer concentratie in (gescheiden door komma):", placeholder = "Voorbeeld: 1.25, 0.90, 0.60, 0.31, 0.16", width = "100%"),
+      textInput("new_act", "Voer activiteit in (gescheiden door komma):", placeholder = "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02", width = "100%"),
       fluidRow(
         column(6, textInput("single_conc_unit", "Concentratie eenheid:")),
         column(6, textInput("single_act_unit", "Activiteit eenheid:"))
@@ -39,13 +39,13 @@ ui <- fluidPage(
     p("! Gebruik een '.' als decimaalteken."),
     wellPanel(
       textInput("new_conc1", "Voer concentratie in voor dataset 1 (gescheiden door komma):", placeholder =
-                  "Voorbeeld: 1.25, 0.90, 0.60, 0.31, 0.16, 0.08, 0.04, 0.02, 0.01", width = "100%"),
+                  "Voorbeeld: 1.25, 0.90, 0.60, 0.31, 0.16", width = "100%"),
       textInput("new_act1", "Voer activiteit in voor dataset 1 (gescheiden door komma):", placeholder =
-                  "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%"),
+                  "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02", width = "100%"),
       textInput("new_conc2", "Voer concentratie in voor dataset 2 (gescheiden door komma):", placeholder =
-                  "Voorbeeld: 1.25, 0.90, 0.60, 0.31, 0.16, 0.08, 0.04, 0.02, 0.01", width = "100%"),
+                  "Voorbeeld: 1.25, 0.90, 0.60, 0.31, 0.16", width = "100%"),
       textInput("new_act2", "Voer activiteit in voor datatset 2 (gescheiden door komma):",
-                placeholder = "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%"),
+                placeholder = "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02", width = "100%"),
       fluidRow(
         column(6, textInput("double_conc_unit", "Concentratie eenheid:")),
         column(6, textInput("double_act_unit", "Activiteit eenheid:"))
@@ -58,7 +58,24 @@ ui <- fluidPage(
     ),
     
     tabPanel("Substraat inhibitie",
-             p("Hier komt het gedeelte over substraatinhibitie")),
+             p("Gebaseerd op gemeten activiteiten \\((v)\\) bij gegeven concentraties \\((S)\\) 
+             wordt een MM-curve en substraat inhibitie gefit voor de gemeten datapunten."),
+             p("! Gebruik een '.' als decimaalteken."),
+             wellPanel(
+               textInput("new_conc_sub", "Voer concentratie in (gescheiden door komma):", placeholder =
+                           "Voorbeeld: 1.25, 0.90, 0.60, 0.31, 0.16, 0.08, 0.04, 0.02, 0.01", width = "100%"),
+               textInput("new_act_sub", "Voer activiteit in (gescheiden door komma):", placeholder =
+                           "Voorbeeld: 1.12e-01, 9.90e-02, 1.10e-01, 9.66e-02, 7.27e-02, 4.80e-02, 2.75e-02, 0.00e00, 6.71e-03", width = "100%"),
+               fluidRow(
+                 column(6, textInput("sub_conc_unit", "Concentratie eenheid:")),
+                 column(6, textInput("sub_act_unit", "Activiteit eenheid:"))
+                 ),
+               actionButton("fit_sub", "Maak plot")
+               ),
+             
+             br(),
+             plotOutput("sub_plot", height = "400px")
+    ),
     
     tabPanel("Info en contact",
              h3("Hoe komt de fit tot stand?"),

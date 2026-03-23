@@ -101,9 +101,11 @@ fit_si <- nlsLM(
 
 summary(fit_si)
 ```
+
 ```{r}
 plot_data$fitted_v <- predict(fit_si, newdata = plot_data)
 ```
+
 ```{r}
 ggplot(plot_data, aes(x = concentration, y = activity)) +
   geom_point(color = "brown2", shape = 18, size = 3) +
