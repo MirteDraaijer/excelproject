@@ -16,7 +16,7 @@ parse_input <- function(conc_input, act_input) {
 fit_si <- function(data_frame) {
   nlsLM(
     activity ~ (Vmax * concentration) / (Km + concentration * (1 + concentration / Ki)),
-    data = plot_data,
+    data = data_frame,
     start = list(Vmax = max(data_frame$activity), 
                  Km = median(data_frame$concentration), 
                  Ki = max(data_frame$concentration)),
