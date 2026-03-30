@@ -113,6 +113,11 @@ server <- function(input, output, session) {
     sub_si_fit <- fit_sub_si()
     req(sub_data, sub_si_fit)
     
+    params <- coef(sub_si_fit)
+    
+    Vmax <- params["Vmax"]
+    Km   <- params["Km"]
+    
     pred_df <- sub_data
     pred_df$fitted_v <- predict(sub_si_fit, newdata = pred_df)
     
@@ -123,10 +128,16 @@ server <- function(input, output, session) {
       geom_line(data = pred_df,
                 aes(x = concentration, y = fitted_v, color = "Substraat inhibitie"),
                 linewidth = 1) +
+      geom_hline(aes(yintercept = Vmax, color = "Vmax"),
+                 linetype = "dotdash", linewidth = 0.7) +
+      geom_vline(aes(xintercept = Km, color = "Km"),
+                 linetype = "dashed", linewidth = 0.7) +
       
       scale_color_manual(values = c(
         "Meetpunten" = "deepskyblue4",
-        "Substraat inhibitie" = "deeppink"
+        "Substraat inhibitie" = "deeppink",
+        "Vmax" = "grey50",
+        "Km" = "grey50"
       )) +
       
       labs (
