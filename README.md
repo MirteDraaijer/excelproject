@@ -55,7 +55,63 @@ URL: HIER DE LINK
 
 ## Gebruikershandleiding
 
-Even stap voor stap alles doorlopen.
+NOG AANVULLEN MET SCREENSHOTS!
+
+De MM-curve fitting applicatie heeft een aantal tabladen en functionaliteiten waaruit 
+gekozen kan worden. In deze sectie zal elk tablad kort doorlopen worden, met waar nodig
+instructies over hoe deze functionaliteit gebruikt kan worden.
+
+### Welkomstpagina
+
+Wanneer de app geopend wordt, beland je op het welkomst-scherm. Hier kan in de menubalk bovenin gekozen worden voor:
+
+- Welkom: de pagina waarop je op dit moment bent.
+- Enkele curve: op deze pagina kan een enkele curve gefit worden.
+- Dubbele curve: op deze pagina kan een dubbele curve gefit worden.
+- Substraat inhibitie: op deze pagina kan substraat inhibitie gefit worden.
+- Info en contact: op deze pagina staat aanvullende informatie en de contactgegevens.
+
+### Enkele curve
+
+Op deze pagina kan een enkele curve geplot worden. Om dit te doen moeten de 
+volgende stappen doorlopen worden:
+
+1. Vul de gemeten concentraties in.
+2. Vul de gemeten activiteiten in.
+3. Vul de eenheid voor de concentratie in.
+4. Vul de eenheid voor de activiteit in.
+5. Klik op de 'Maak plot' knop.
+
+### Dubbele curve
+
+Op deze pagina kan een dubbele curve geplot worden. Om dit te doen moeten de 
+volgende stappen doorlopen worden:
+
+1. Vul de gemeten concentraties in voor dataset 1.
+2. Vul de gemeten activiteiten in voor dataset 1.
+3. Herhaal stap 1 en stap 2 voor dataset2.
+4. Vul de eenheid voor de concentratie in.
+5. Vul de eenheid voor de activiteit in.
+6. Klik op de 'Maak plot' knop.
+
+### Substraat inhibitie
+
+Op deze pagina kan substraat inhibitie gefit worden. Om dit te doen moeten de 
+volgende stappen doorlopen worden:
+
+1. Vul de gemeten concentraties in.
+2. Vul de gemeten activiteiten in.
+3. Vul de eenheid voor de concentratie in.
+4. Vul de eenheid voor de activiteit in.
+5. Klik op de 'Maak plot' knop.
+
+### Info en contact
+
+Op deze pagina is extra informatie te vinden over hoe de verschillende fits tot 
+stand komen. Ook zijn hier hyperlinks naar externe pagina's met aanvullende informatie 
+over een aantal onderwerpen.
+
+Verder staan de contactgegevens op deze pagina.
 
 ## Ondersteuning
 
