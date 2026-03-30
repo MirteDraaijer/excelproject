@@ -71,7 +71,7 @@ ui <- fluidPage(
     
     tabPanel("Substraat inhibitie",
     p("Gebaseerd op gemeten activiteiten \\((v)\\) bij gegeven concentraties \\((S)\\) 
-      wordt een MM-curve en substraat inhibitie gefit voor de gemeten datapunten."),
+      wordt substraat inhibitie gefit voor de gemeten datapunten."),
     p(icon("circle-exclamation"), "Gebruik een '.' als decimaalteken."),
     wellPanel(
       textInput("new_conc_sub", "Voer concentratie in (gescheiden door komma):", placeholder =

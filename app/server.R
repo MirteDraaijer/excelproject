@@ -103,11 +103,6 @@ server <- function(input, output, session) {
     data
   })
   
-  fit_sub <- eventReactive(input$fit_sub, {
-    req(data_sub())
-    dir.MM(data_sub(), plot = FALSE)
-  })
-  
   fit_sub_si <- eventReactive(input$fit_sub, {
     req(data_sub())
     fit_si(data_sub())
@@ -115,9 +110,8 @@ server <- function(input, output, session) {
   
   output$sub_plot <- renderPlot({
     sub_data <- data_sub()
-    sub_fit <- fit_sub()
     sub_si_fit <- fit_sub_si()
-    req(sub_data, sub_fit, sub_si_fit)
+    req(sub_data, sub_si_fit)
     
     pred_df <- sub_data
     pred_df$fitted_v <- predict(sub_si_fit, newdata = pred_df)
@@ -126,16 +120,12 @@ server <- function(input, output, session) {
       geom_point(data = sub_data,
                  aes(x = concentration, y = activity, color = "Meetpunten"),
                  shape = 4, size = 3) +
-      geom_line(data = sub_fit$data,
-                aes(x = S, y = fitted_v, color = "MM-curve"),
-                linewidth = 1) +
       geom_line(data = pred_df,
                 aes(x = concentration, y = fitted_v, color = "Substraat inhibitie"),
                 linewidth = 1) +
       
       scale_color_manual(values = c(
         "Meetpunten" = "deepskyblue4",
-        "MM-curve" = "deepskyblue",
         "Substraat inhibitie" = "deeppink"
       )) +
       
