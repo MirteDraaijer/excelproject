@@ -24,6 +24,10 @@ fit_si <- function(data_frame) {
   )
 }
 
+calc_r2 <- function(obs, pred){
+  1 - sum((obs - pred)^2) / sum((obs - mean(obs))^2)
+}
+
 validate_dataset <- function(data) {
   validate(
     need(length(data$concentration) > 0 && length(data$activity) > 0,

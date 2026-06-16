@@ -52,11 +52,16 @@ server <- function(input, output, session) {
     req(single_fit())
     params <- single_fit()$parameters
     
+    obs <- single_data()$activity
+    pred <- single_fit()$data$fitted_v
+    r2 <- calc_r2(obs, pred)
+    
     paste0(
       "Vmax = ", params[2], " ",
       input$single_act_unit,
       " | Km = ", params[1], " ",
-      input$single_conc_unit
+      input$single_conc_unit,
+      " | R² = ", round(r2, 4)
     )
   })
   
@@ -126,17 +131,27 @@ server <- function(input, output, session) {
     params1 <- fit1()$parameters
     params2 <- fit2()$parameters
     
+    obs1 <- data1()$activity
+    pred1 <- fit1()$data$fitted_v
+    r2_1 <- calc_r2(obs1, pred1)
+    
+    obs2 <- data2()$activity
+    pred2 <- fit2()$data$fitted_v
+    r2_2 <- calc_r2(obs2, pred2)
+    
     paste0(
       "Dataset 1: \n",
       "Vmax = ", params1[2], " ",
       input$double_act_unit,
       " | Km = ", params1[1], " ",
       input$double_conc_unit,
+      " | R² = ", round(r2_1, 4),
       "\n\nDataset 2:\n",
       "Vmax = ", params2[2], " ",
       input$double_act_unit,
       " | Km = ", params2[1], " ",
-      input$double_conc_unit
+      input$double_conc_unit,
+      " | R² = ", round(r2_2, 4)
       )
   })
   
@@ -194,14 +209,18 @@ server <- function(input, output, session) {
   
   output$sub_parameters <- renderText({
     req(fit_sub_si())
-    
     params <- coef(fit_sub_si())
+    
+    obs <- data_sub()$activity
+    pred <- predict(fit_sub_si(), newdata = data_sub())
+    r2 <- calc_r2(obs, pred)
     
     paste0(
       "Vmax = ", round(params["Vmax"], 3), " ",
       input$sub_act_unit,
       " | Km = ", round(params["Km"], 3), " ",
-      input$sub_conc_unit
+      input$sub_conc_unit,
+      " | R² = ", round(r2, 4)
     )
   })
 }
