@@ -44,7 +44,7 @@ ui <- fluidPage(
     br(),
     plotOutput("single_plot", height = "400px"),
     br(),
-    strong(textOutput("single_parameters"))
+    strong(verbatimTextOutput("single_parameters"))
     ),
     
     tabPanel("Dubbele curve",
@@ -68,7 +68,9 @@ ui <- fluidPage(
       ),
     
     br(),
-    plotOutput("double_plot", height = "400px")
+    plotOutput("double_plot", height = "400px"),
+    br(),
+    strong(verbatimTextOutput("double_parameters"))
     ),
     
     tabPanel("Substraat inhibitie",
@@ -90,7 +92,7 @@ ui <- fluidPage(
     br(),
     plotOutput("sub_plot", height = "400px"),
     br(),
-    strong(textOutput("sub_parameters"))
+    strong(verbatimTextOutput("sub_parameters"))
     ),
     
     tabPanel("Info en contact",

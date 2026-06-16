@@ -118,6 +118,25 @@ server <- function(input, output, session) {
       set_theme()
   })
   
+  output$double_parameters <- renderText({
+    req(fit1(), fit2())
+    params1 <- fit1()$parameters
+    params2 <- fit2()$parameters
+    
+    paste0(
+      "Dataset 1: \n",
+      "Vmax = ", params1[2], " ",
+      input$double_act_unit,
+      " | Km = ", params1[1], " ",
+      input$double_conc_unit,
+      "\n\nDataset 2:\n",
+      "Vmax = ", params2[2], " ",
+      input$double_act_unit,
+      " | Km = ", params2[1], " ",
+      input$double_conc_unit
+      )
+  })
+  
   # Substrate inhibition:
   data_sub <- eventReactive(input$fit_sub, {
     data <- parse_input(input$new_conc_sub, input$new_act_sub)
