@@ -88,27 +88,30 @@ server <- function(input, output, session) {
     d_fit2 <- fit2()
     req(d_data1, d_data2, d_fit1, d_fit2)
     
+    lab1 <- input$dataset1_label
+    lab2 <- input$dataset2_label
+    
     ggplot() +
       geom_point(data = d_data1,
-                 aes(x = concentration, y = activity, color = "Dataset 1"),
+                 aes(x = concentration, y = activity, color = lab1),
                  shape = 4, size = 3) +
       geom_line(data = d_fit1$data,
-                aes(x = S, y = fitted_v, color = "Fit 1"),
+                aes(x = S, y = fitted_v, color = paste0(lab1, " fit")),
                 linewidth = 1) +
       
       geom_point(data = d_data2,
-                 aes(x = concentration, y = activity, color = "Dataset 2"),
+                 aes(x = concentration, y = activity, color = lab2),
                  shape = 3, size = 3) +
       geom_line(data = d_fit2$data,
-                aes(x = S, y = fitted_v, color = "Fit 2"),
+                aes(x = S, y = fitted_v, color = paste0(lab2, " fit")),
                 linewidth = 1) +
       
       scale_color_manual(values = c(
-        "Dataset 1" = "deepskyblue4",
-        "Fit 1" = "deepskyblue",
-        "Dataset 2" = "deeppink4",
-        "Fit 2" = "deeppink"
-        )) +
+        setNames("deepskyblue4", lab1),
+        setNames("deepskyblue", paste0(lab1, " fit")),
+        setNames("deeppink4", lab2),
+        setNames("deeppink", paste0(lab2, " fit"))
+      )) +
       
       labs (
         title = input$double_title,

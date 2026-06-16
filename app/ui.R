@@ -66,6 +66,10 @@ ui <- fluidPage(
         column(6, textInput("double_act_unit", "Activiteit eenheid:"))
         ),
       textInput("double_title", "Plot titel: ", placeholder = "MM-curve gefit door gemeten datapunten", value = "MM-curve gefit door gemeten datapunten"),
+      fluidRow(
+        column(6, textInput("dataset1_label", "Dataset 1 label:", placeholder = "Dataset 1", value = "Dataset 1")),
+        column(6, textInput("dataset2_label", "Dataset 2 label:", placeholder = "Dataset 2", value = "Dataset 2"))
+      ),
       actionButton("fit_double", "Maak plot")
       ),
     
