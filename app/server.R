@@ -31,11 +31,33 @@ server <- function(input, output, session) {
                 aes(x = S, y = fitted_v),
                 color = "deepskyblue2",
                 linewidth = 1) +
+      geom_hline(aes(yintercept = s_fit$parameters[2], color = "Vmax"),
+                 linetype = "dotdash", linewidth = 0.7) +
+      geom_vline(aes(xintercept = s_fit$parameters[1], color = "Km"),
+                 linetype = "dashed", linewidth = 0.7) +
+      scale_color_manual(values = c(
+        "Vmax" = "grey50",
+        "Km" = "grey50"
+        )) +
+      
       labs(
         title = "MM-curve gefit door gemeten datapunten",
-        !!!axis_labels(input$single_conc_unit, input$single_act_unit)
+        !!!axis_labels(input$single_conc_unit, input$single_act_unit),
+        color = "Legenda"
       ) +
       set_theme()
+  })
+  
+  output$single_parameters <- renderText({
+    req(single_fit())
+    params <- single_fit()$parameters
+    
+    paste0(
+      "Vmax = ", params[2], " ",
+      input$single_act_unit,
+      " | Km = ", params[1], " ",
+      input$single_conc_unit
+    )
   })
   
   # Double curve:

@@ -42,7 +42,9 @@ ui <- fluidPage(
       ),
     
     br(),
-    plotOutput("single_plot", height = "400px")
+    plotOutput("single_plot", height = "400px"),
+    br(),
+    strong(textOutput("single_parameters"))
     ),
     
     tabPanel("Dubbele curve",
