@@ -142,3 +142,39 @@ fit_values$parameters[2]
 ```
 
 Om dit toe te passen in de applicatie kan ik deze waarden halen uit het gefitte model en als een tekst toevoegen.
+
+# R^2 berekenen:
+
+Ook wil ik de R^2 toevoegen aan de applicatie, deze moet ik nog berekenen. Voor de enkele- en dubbele curve heb ik gebruik gemaakt van `dir.MM()`, voor de substraat inhibitie curve heb ik zelf een model geschreven. Voor de enkele curve en de substraat inhibitie curve zal ik nu de R^2 berekenen.
+
+Allereerst de benodigde gegevens ophalen
+
+```{r}
+obs_single <- plot_data$activity
+pred_single <- fit_values$data$fitted_v
+```
+
+```{r}
+obs_sub <-plot_data$activity
+pred_sub <- plot_data$fitted_v
+```
+
+Daarna een functie maken voor het berekenen van R^2
+
+```{r}
+calc_R2 <- function(obs, pred) {
+  1 - sum((obs - pred)^2) / sum((obs - mean(obs))^2)
+}
+```
+
+Tot slot met behulp van de functie de R^2 berekenen
+
+```{r}
+print("R^2 voor enkele curve model")
+calc_R2(plot_data$activity, fit_values$data$fitted_v)
+
+print("R^2 voor substraat inhibitie model")
+calc_R2(plot_data$activity, plot_data$fitted_v
+```
+
+
