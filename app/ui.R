@@ -38,6 +38,7 @@ ui <- fluidPage(
         column(6, textInput("single_conc_unit", "Concentratie eenheid:")),
         column(6, textInput("single_act_unit", "Activiteit eenheid:"))
         ),
+      textInput("single_title", "Plot titel: ", placeholder = "MM-curve gefit door gemeten datapunten", value = "MM-curve gefit door gemeten datapunten"),
       actionButton("fit_single", "Maak plot")
       ),
     
@@ -64,6 +65,7 @@ ui <- fluidPage(
         column(6, textInput("double_conc_unit", "Concentratie eenheid:")),
         column(6, textInput("double_act_unit", "Activiteit eenheid:"))
         ),
+      textInput("double_title", "Plot titel: ", placeholder = "MM-curve gefit door gemeten datapunten", value = "MM-curve gefit door gemeten datapunten"),
       actionButton("fit_double", "Maak plot")
       ),
     
@@ -86,6 +88,7 @@ ui <- fluidPage(
         column(6, textInput("sub_conc_unit", "Concentratie eenheid:")),
         column(6, textInput("sub_act_unit", "Activiteit eenheid:"))
         ),
+      textInput("sub_title", "Plot titel: ", placeholder = "MM-curve gefit door gemeten datapunten", value = "MM-curve gefit door gemeten datapunten"),
       actionButton("fit_sub", "Maak plot")
       ),
     

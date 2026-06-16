@@ -41,7 +41,7 @@ server <- function(input, output, session) {
         )) +
       
       labs(
-        title = "MM-curve gefit door gemeten datapunten",
+        title = input$single_title,
         !!!axis_labels(input$single_conc_unit, input$single_act_unit),
         color = "Legenda"
       ) +
@@ -111,7 +111,7 @@ server <- function(input, output, session) {
         )) +
       
       labs (
-        title = "MM-curve gefit door gemeten datapunten",
+        title = input$double_title,
         !!!axis_labels(input$double_conc_unit, input$double_act_unit),
         color = "Legenda"
         ) +
@@ -182,7 +182,7 @@ server <- function(input, output, session) {
       )) +
       
       labs (
-        title = "MM-curve & substraat inhibitie voor gemeten datapunten",
+        title = input$sub_title,
         !!!axis_labels(input$sub_conc_unit, input$sub_act_unit),
         color = "Legenda"
       ) +
