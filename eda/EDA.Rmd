@@ -124,3 +124,21 @@ ggplot(plot_data, aes(x = concentration, y = activity)) +
 
 De figuur heeft nog een legenda nodig en de substraat inhibitie staat nog niet in een functie maar dat is zo gebeurt.
 De substraat inhibitie lijkt in elk geval te werken.
+
+# Vmax en Km extraheren:
+
+In de applicatie wil ook de Vmax en de Km weergeven, ik ga kijken hoe ik deze uit de resultaten van `Renz` kan krijgen.
+
+De Km en Vmax staan in `parameters` van het gefitte model, hierbij staat de Km op positie 1.
+
+```{r}
+fit_values$parameters[1]
+```
+
+Vmax staat op positie 2.
+
+```{r}
+fit_values$parameters[2]
+```
+
+Om dit toe te passen in de applicatie kan ik deze waarden halen uit het gefitte model en als een tekst toevoegen.
