@@ -86,7 +86,9 @@ ui <- fluidPage(
       ),
     
     br(),
-    plotOutput("sub_plot", height = "400px")
+    plotOutput("sub_plot", height = "400px"),
+    br(),
+    strong(textOutput("sub_parameters"))
     ),
     
     tabPanel("Info en contact",

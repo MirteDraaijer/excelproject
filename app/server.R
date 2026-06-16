@@ -147,4 +147,17 @@ server <- function(input, output, session) {
       ) +
       set_theme()
   })
+  
+  output$sub_parameters <- renderText({
+    req(fit_sub_si())
+    
+    params <- coef(fit_sub_si())
+    
+    paste0(
+      "Vmax = ", round(params["Vmax"], 3), " ",
+      input$sub_act_unit,
+      " | Km = ", round(params["Km"], 3), " ",
+      input$sub_conc_unit
+    )
+  })
 }
