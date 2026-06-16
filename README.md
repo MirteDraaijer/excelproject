@@ -18,7 +18,7 @@ In dit dashboard kan de gebruiker gemeten enzymconcentraties en enzymactiviteite
 **Kloon de repository:**
 
 ``` bash
-git clone git@github.com:MirteDraaijer/excelproject.git
+git@github.com:MirteDraaijer/MM-curve_applicatie.git
 ```
 
 **Installeer de benodigde R-packages:**
@@ -121,4 +121,4 @@ Tot slot bevat de applicatie nog een info en contact pagina, hierop is achtergro
 
 ## Ondersteuning
 
-In het geval van bugs of als er ondersteuning nodig is, open een issue op de [repository](https://github.com/MirteDraaijer/excelproject/issues).
+In het geval van bugs of als er ondersteuning nodig is, open een issue op de [repository](https://github.com/MirteDraaijer/MM-curve_applicatie/issues).
