@@ -40,7 +40,12 @@ set_theme <- function(){
     theme_minimal() +
       theme(
         plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
-        axis.title = element_text(face = "bold")
+        axis.title = element_text(color = "black", face = "bold"),
+        axis.text = element_text(color = "black"),
+        
+        axis.line = element_line(color = "#636363", linewidth = 0.8),
+        axis.ticks = element_line(color = "#636363", linewidth = 0.6),
+        axis.ticks.length = unit(0.25, "cm")
       )
   )
 }
